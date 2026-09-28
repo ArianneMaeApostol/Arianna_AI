@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Arianna AI — Your super friendly AI that answers your questions simply, privately, and instantly.">
+    <title>Arianna AI</title>
+    <link rel="icon" type="image/png" href="AI_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="style.css?v=12">
+</head>
+
+
+<body>
+    <div id="app-root">
+
+        <!-- ====== SIDEBAR ====== -->
+        <aside id="sidebar">
+            <div class="sidebar-top">
+
+                <!-- Brand -->
+                <div class="sidebar-brand">
+                    <div class="brand-icon-wrap">
+                        <img src="AI_logo.png" alt="Arianna AI Logo" class="brand-logo-img">
+                    </div>
+                    <div class="brand-text-wrap">
+                        <span class="brand-name">ARIANNA</span>
+                        <span class="brand-tagline">AI Assistant</span>
+                    </div>
+                </div>
+
+                <!-- New Chat CTA -->
+                <button class="new-chat-btn" id="new-chat-btn">
+                    <span class="material-symbols-rounded">add</span>
+                    New conversation
+                </button>
+
+                <!-- Quick Actions -->
+                <div class="sidebar-links">
+                    <button class="sidebar-link" id="btn-history">
+                        <span class="material-symbols-rounded">history</span>
+                        History
+                    </button>
+                    <button class="sidebar-link" id="btn-homework">
+                        <span class="material-symbols-rounded">menu_book</span>
+                        Homework Help
+                    </button>
+                    <button class="sidebar-link" id="btn-writing">
+                        <span class="material-symbols-rounded">edit_note</span>
+                        Writing Help
+                    </button>
+                    <button class="sidebar-link" id="btn-coding">
+                        <span class="material-symbols-rounded">code</span>
+                        Coding Hints
+                    </button>
+                </div>
+
+                <!-- Recents -->
+                <div class="recents-section">
+                    <div class="recents-header">
+                        <span class="recents-label">Recent chats</span>
+                    </div>
+                    <div class="recents-search-wrap">
+                        <span class="material-symbols-rounded recents-search-icon">search</span>
+                        <input type="text" id="recents-search" placeholder="Search chats…" autocomplete="off">
+                    </div>
+                    <div id="recents-list" class="recents-list"></div>
+                </div>
+            </div>
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+                <div class="user-profile" id="user-profile-btn">
+                    <div class="user-avatar">
+                        <span class="material-symbols-rounded">person</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">My Account</span>
+                        <span class="user-sub">Free plan</span>
+                    </div>
+                    <span class="material-symbols-rounded user-arrow">expand_more</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ====== MAIN AREA ====== -->
+        <div id="main-wrapper">
+
+            <!-- Ambient background blobs -->
+            <div class="ambient-blob blob-1"></div>
+            <div class="ambient-blob blob-2"></div>
+            <div class="ambient-blob blob-3"></div>
+
+            <!-- Top bar -->
+            <header id="topbar">
+                <div class="topbar-left">
+                    <button class="topbar-icon-btn" id="sidebar-toggle-mobile" aria-label="Toggle sidebar">
+                        <span class="material-symbols-rounded">menu</span>
+                    </button>
+                    <button class="chat-title-btn" id="chat-title-btn">
+                        <span id="current-chat-title">New conversation</span>
+                        <span class="material-symbols-rounded title-caret">expand_more</span>
+                    </button>
+                    <div class="mode-badge hidden" id="mode-badge">
+                        <span class="material-symbols-rounded mode-badge-icon" id="mode-badge-icon">auto_awesome</span>
+                        <span class="mode-badge-text" id="mode-badge-text">General</span>
+                        <button class="mode-badge-reset" id="mode-badge-reset" title="Switch to General Assistant">
+                            <span class="material-symbols-rounded">close</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div class="model-pill" id="model-selector-btn">
+                        <span class="material-symbols-rounded model-pill-icon">auto_awesome</span>
+                        <span class="model-name" id="model-display">Gemini Flash</span>
+                        <span class="material-symbols-rounded model-caret">expand_more</span>
+                    </div>
+                    <button class="topbar-icon-btn" id="share-btn" title="Share">
+                        <span class="material-symbols-rounded">ios_share</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat area -->
+            <main id="chat-area">
+
+                <!-- Welcome screen -->
+                <div id="welcome-screen">
+                    <div class="welcome-content">
+                        <div class="welcome-hero">
+                            <div class="welcome-orb-wrap">
+                                <img src="AI_logo.png" alt="Arianna AI" class="welcome-logo-img">
+                            </div>
+                            <div class="welcome-sparkles">
+                                <span class="sparkle s1">✦</span>
+                                <span class="sparkle s2">✦</span>
+                                <span class="sparkle s3">✦</span>
+                            </div>
+                        </div>
+                        <h1 class="welcome-title">Hi! I'm <span class="title-gradient">Arianna</span> 👋</h1>
+                        <p class="welcome-sub">Your super friendly AI — ask me anything, anytime!</p>
+
+                        <div class="welcome-suggestions">
+                            <button class="suggestion-card" data-prompt="Help me understand this math problem">
+                                <span class="suggestion-card-icon icon-blue">
+                                    <span class="material-symbols-rounded">calculate</span>
+                                </span>
+                                <div class="suggestion-card-text">
+                                    <span class="suggestion-title">Homework Help 📚</span>
+                                    <span class="suggestion-desc">Explain math, science, or any subject</span>
+                                </div>
+                            </button>
+                            <button class="suggestion-card" data-prompt="Help me write a short story about">
+                                <span class="suggestion-card-icon icon-purple">
+                                    <span class="material-symbols-rounded">edit_note</span>
+                                </span>
+                                <div class="suggestion-card-text">
+                                    <span class="suggestion-title">Writing Help ✍️</span>
+                                    <span class="suggestion-desc">Stories, essays, emails and more</span>
+                                </div>
+                            </button>
+                            <button class="suggestion-card" data-prompt="Review my code and help fix the bug:">
+                                <span class="suggestion-card-icon icon-teal">
+                                    <span class="material-symbols-rounded">code</span>
+                                </span>
+                                <div class="suggestion-card-text">
+                                    <span class="suggestion-title">Coding Hints 💻</span>
+                                    <span class="suggestion-desc">Debug, explain, or learn to code</span>
+                                </div>
+                            </button>
+                            <button class="suggestion-card" data-prompt="Explain this in simple words:">
+                                <span class="suggestion-card-icon icon-amber">
+                                    <span class="material-symbols-rounded">lightbulb</span>
+                                </span>
+                                <div class="suggestion-card-text">
+                                    <span class="suggestion-title">Quick Answers 💡</span>
+                                    <span class="suggestion-desc">Simple answers to any question</span>
+                                </div>
+                            </button>
+                            <button class="suggestion-card" data-prompt="Translate this text to Filipino:">
+                                <span class="suggestion-card-icon icon-pink">
+                                    <span class="material-symbols-rounded">translate</span>
+                                </span>
+                                <div class="suggestion-card-text">
+                                    <span class="suggestion-title">Translation 🌍</span>
+                                    <span class="suggestion-desc">Translate text to any language</span>
+                                </div>
+                            </button>
+                            <button class="suggestion-card" data-prompt="Let's just have a fun conversation about">
+                                <span class="suggestion-card-icon icon-green">
+                                    <span class="material-symbols-rounded">chat_bubble</span>
+                                </span>
+                                <div class="suggestion-card-text">
+                                    <span class="suggestion-title">Just Chat! 😊</span>
+                                    <span class="suggestion-desc">Share ideas, talk, or just hang out</span>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages feed -->
+                <div id="messages-feed" class="hidden"></div>
+
+            </main>
+
+            <!-- Input bar -->
+            <footer id="input-bar">
+                <div class="input-container">
+                    <!-- Image attachment preview tray -->
+                    <div id="attachment-preview-bar" class="attachment-preview-bar hidden"></div>
+
+                    <div class="input-box" id="input-box">
+                        <textarea id="user-input" placeholder="Type any question — just like texting a friend!" rows="1"
+                            maxlength="10000"></textarea>
+                        <div class="input-controls">
+                            <input type="file" id="file-input" accept="image/png, image/jpeg, image/webp, image/gif"
+                                multiple hidden>
+                            <button class="input-ctrl-btn" id="attach-btn" title="Attach image (or paste Ctrl+V)">
+                                <span class="material-symbols-rounded">attach_file</span>
+                            </button>
+                            <div class="input-right-controls">
+                                <button class="input-ctrl-btn" id="voice-btn" title="Voice input (speech-to-text)">
+                                    <span class="material-symbols-rounded">mic</span>
+                                </button>
+                                <button class="send-btn" id="send-btn" title="Send message" disabled>
+                                    <span class="material-symbols-rounded">arrow_upward</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="input-disclaimer">
+                        <span class="material-symbols-rounded disclaimer-lock">lock</span>
+                        Your conversations stay private on your computer.
+                    </p>
+                </div>
+            </footer>
+
+        </div><!-- end main-wrapper -->
+
+        <!-- Model dropdown -->
+        <div id="model-dropdown" class="dropdown hidden">
+            <div class="dropdown-header">Choose AI Model</div>
+
+            <!-- Active: Gemini Flash -->
+            <button class="dropdown-item active" data-model="gemini-3.8-flash" data-label="Gemini Flash">
+                <div class="dropdown-item-left">
+                    <span class="dropdown-item-dot dot-blue"></span>
+                    <div class="dropdown-item-info">
+                        <span class="dropdown-item-name">Gemini Flash</span>
+                        <span class="dropdown-item-desc">Fast and efficient · Powered by gemini-3.8-flash</span>
+                    </div>
+                </div>
+                <span class="material-symbols-rounded dropdown-check">check_circle</span>
+            </button>
+
+            <!-- Disabled: Gemini Pro -->
+            <div class="dropdown-item dropdown-item--disabled">
+                <div class="dropdown-item-left">
+                    <span class="dropdown-item-dot dot-purple"></span>
+                    <div class="dropdown-item-info">
+                        <span class="dropdown-item-name">Gemini Pro</span>
+                        <span class="dropdown-item-desc">Advanced reasoning &amp; analysis</span>
+                    </div>
+                </div>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <!-- Disabled: Gemini Ultra -->
+            <div class="dropdown-item dropdown-item--disabled">
+                <div class="dropdown-item-left">
+                    <span class="dropdown-item-dot dot-gold"></span>
+                    <div class="dropdown-item-info">
+                        <span class="dropdown-item-name">Gemini Ultra</span>
+                        <span class="dropdown-item-desc">Most capable, best for complex tasks</span>
+                    </div>
+                </div>
+                <span class="coming-soon-badge">Coming Soon</span>
+            </div>
+
+            <div class="dropdown-footer-note">
+                <span class="material-symbols-rounded">info</span>
+                Only Gemini Flash is available right now.
+            </div>
+        </div>
+
+        <!-- Export / Share dropdown -->
+        <div id="share-dropdown" class="dropdown hidden">
+            <div class="dropdown-header">Export Conversation</div>
+            <button class="dropdown-item" id="export-markdown-btn">
+                <div class="dropdown-item-left">
+                    <span class="material-symbols-rounded"
+                        style="color: var(--blue-light); font-size: 20px;">description</span>
+                    <div class="dropdown-item-info">
+                        <span class="dropdown-item-name">Save as Markdown (.md)</span>
+                        <span class="dropdown-item-desc">Formatted with headings and code blocks</span>
+                    </div>
+                </div>
+            </button>
+            <button class="dropdown-item" id="export-text-btn">
+                <div class="dropdown-item-left">
+                    <span class="material-symbols-rounded" style="color: var(--purple); font-size: 20px;">article</span>
+                    <div class="dropdown-item-info">
+                        <span class="dropdown-item-name">Save as Text (.txt)</span>
+                        <span class="dropdown-item-desc">Plain text conversation transcript</span>
+                    </div>
+                </div>
+            </button>
+            <button class="dropdown-item" id="copy-chat-btn">
+                <div class="dropdown-item-left">
+                    <span class="material-symbols-rounded" style="color: #4ade80; font-size: 20px;">content_copy</span>
+                    <div class="dropdown-item-info">
+                        <span class="dropdown-item-name">Copy Transcript</span>
+                        <span class="dropdown-item-desc">Copy whole chat to clipboard</span>
+                    </div>
+                </div>
+            </button>
+        </div>
+
+    </div><!-- end app-root -->
+    <script src="app.js?v=12"></script>
+</body>
+
+</html>

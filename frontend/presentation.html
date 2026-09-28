@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arianna AI - Project Proposal Slide Deck</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        :root {
+            --bg-color: #080710;
+            --bg-gradient: radial-gradient(circle at 50% 50%, #151030 0%, #070510 70%, #030206 100%);
+            --card-bg: rgba(22, 20, 38, 0.55);
+            --card-border: rgba(255, 255, 255, 0.07);
+            --text-main: #f1f0f7;
+            --text-muted: #9e9bb4;
+            --primary: #9d4edd;
+            --primary-rgb: 157, 78, 221;
+            --primary-glow: rgba(157, 78, 221, 0.15);
+            --secondary: #4361ee;
+            --secondary-rgb: 67, 97, 238;
+            --accent: #4cc9f0;
+            --success: #38b000;
+            --warning: #ff9f1c;
+            --danger: #d90429;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --slide-width: 1100px;
+            --slide-height: 650px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #presentation-wrapper {
+            position: relative;
+            width: var(--slide-width);
+            height: var(--slide-height);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1500px;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            backdrop-filter: blur(25px);
+            padding: 50px 60px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 100px rgba(var(--primary-rgb),0.05);
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.95) translateZ(-50px);
+            transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1), visibility 0.6s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .slide.active { opacity: 1; visibility: visible; transform: scale(1) translateZ(0); z-index: 10; }
+        .slide.prev { transform: scale(0.95) translateX(-100px) translateZ(-50px); opacity: 0; }
+        .slide.next { transform: scale(0.95) translateX(100px) translateZ(-50px); opacity: 0; }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 15px;
+        }
+
+        .slide-title-wrapper { display: flex; align-items: center; gap: 12px; }
+
+        .slide-icon {
+            color: var(--primary);
+            font-size: 28px;
+            background: rgba(var(--primary-rgb),0.1);
+            padding: 8px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .slide-title {
+            font-size: 32px; font-weight: 700;
+            background: linear-gradient(135deg,#ffffff 0%,var(--text-muted) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .slide-category {
+            font-size: 12px; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--primary); font-weight: 600;
+            background: rgba(var(--primary-rgb),0.1);
+            padding: 4px 12px; border-radius: 20px;
+            border: 1px solid rgba(var(--primary-rgb),0.2);
+        }
+
+        .slide-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; font-size: 16px; line-height: 1.6; }
+
+        .slide-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 25px; border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 15px; font-size: 12px; color: var(--text-muted);
+        }
+
+        .slide-footer-brand { display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--text-main); }
+        .slide-footer-brand span { color: var(--primary); font-size: 18px; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px; padding: 24px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(var(--primary-rgb),0.2); transform: translateY(-5px); }
+        .feature-card-icon { font-size: 32px; color: var(--primary); margin-bottom: 12px; }
+        .feature-card-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #fff; }
+        .feature-card-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+        ul.proposal-list { list-style: none; }
+        ul.proposal-list li { position: relative; padding-left: 28px; margin-bottom: 14px; font-size: 15px; }
+        ul.proposal-list li::before {
+            content: "fiber_manual_record"; font-family: 'Material Symbols Rounded';
+            font-size: 8px; position: absolute; left: 5px; top: 5px; color: var(--primary);
+        }
+
+        .title-slide-content { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100%; }
+
+        .title-logo {
+            font-size: 80px; color: var(--primary);
+            background: radial-gradient(circle, rgba(var(--primary-rgb),0.2) 0%, transparent 70%);
+            padding: 30px; border-radius: 50%; margin-bottom: 20px;
+            animation: pulse 3s infinite ease-in-out;
+        }
+
+        .main-title {
+            font-size: 52px; font-weight: 800; letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #ffffff 30%, #a29bfe 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .sub-title { font-size: 20px; color: var(--text-muted); font-weight: 400; max-width: 600px; margin-bottom: 40px; line-height: 1.5; }
+
+        .title-meta {
+            display: flex; gap: 24px; font-size: 13px;
+            background: rgba(255,255,255,0.03); padding: 10px 24px;
+            border-radius: 30px; border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .title-meta-item { display: flex; align-items: center; gap: 6px; color: var(--text-muted); }
+        .title-meta-item span { color: var(--primary); }
+
+        .arch-diagram {
+            display: flex; justify-content: space-around; align-items: center;
+            background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 12px; padding: 30px; margin-top: 15px;
+        }
+
+        .arch-node {
+            display: flex; flex-direction: column; align-items: center;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 16px 20px; min-width: 150px; text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .arch-node span.material-symbols-rounded { font-size: 32px; color: var(--primary); margin-bottom: 8px; }
+        .arch-node-title { font-size: 14px; font-weight: 600; color: #fff; }
+        .arch-node-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+        .arch-arrow { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 12px; font-weight: 500; }
+        .arch-arrow span { font-size: 24px; color: var(--primary); }
+
+        .tech-pill-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+        .tech-pill {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; color: var(--text-main);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .tech-pill span { font-size: 16px; color: var(--primary); }
+
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; }
+        .comparison-table th { text-align: left; padding: 12px; border-bottom: 2px solid rgba(255,255,255,0.08); color: var(--text-muted); font-weight: 600; }
+        .comparison-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-main); }
+        .comparison-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+        .timeline-container { display: flex; justify-content: space-between; position: relative; margin-top: 30px; padding: 20px 0; }
+        .timeline-line { position: absolute; top: 40px; left: 5%; width: 90%; height: 2px; background: rgba(255,255,255,0.1); z-index: 1; }
+        .timeline-progress { position: absolute; top: 40px; left: 5%; width: 30%; height: 2px; background: var(--primary); z-index: 2; box-shadow: 0 0 10px var(--primary); }
+        .timeline-node { display: flex; flex-direction: column; align-items: center; z-index: 3; width: 16%; text-align: center; }
+        .timeline-dot { width: 20px; height: 20px; border-radius: 50%; background: #1c1930; border: 3px solid rgba(255,255,255,0.2); margin-bottom: 12px; transition: all 0.3s ease; }
+        .timeline-node.completed .timeline-dot { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .timeline-node.active .timeline-dot { background: #fff; border-color: var(--primary); box-shadow: 0 0 10px #fff; }
+        .timeline-title { font-size: 13px; font-weight: 600; color: #fff; }
+        .timeline-desc { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+
+        #nav-controls {
+            margin-top: 25px; display: flex; align-items: center;
+            justify-content: space-between; width: var(--slide-width); z-index: 100;
+        }
+
+        .nav-btn {
+            background: rgba(22,20,38,0.7); border: 1px solid var(--card-border);
+            color: var(--text-main); padding: 12px 24px; border-radius: 30px; cursor: pointer;
+            display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 14px;
+            backdrop-filter: blur(10px); transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .nav-btn:hover:not(:disabled) { background: rgba(var(--primary-rgb),0.2); border-color: rgba(var(--primary-rgb),0.4); transform: translateY(-2px); }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .nav-center { display: flex; align-items: center; gap: 15px; }
+
+        .slide-counter {
+            font-size: 14px; color: var(--text-muted); font-weight: 500;
+            background: rgba(255,255,255,0.03); padding: 6px 16px;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .overview-toggle-btn {
+            background: transparent; border: none; color: var(--text-muted); cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            padding: 8px; border-radius: 50%; transition: all 0.3s;
+        }
+        .overview-toggle-btn:hover { color: #fff; background: rgba(255,255,255,0.05); }
+
+        #progress-container { width: var(--slide-width); height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; margin-bottom: 20px; overflow: hidden; z-index: 100; }
+        #progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg,var(--secondary) 0%,var(--primary) 100%); transition: width 0.3s ease; }
+
+        #overview-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8,7,16,0.95); backdrop-filter: blur(15px);
+            z-index: 1000; display: flex; flex-direction: column; padding: 40px;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease;
+        }
+        #overview-overlay.open { opacity: 1; visibility: visible; }
+        .overview-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; }
+        .overview-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; overflow-y: auto; max-width: 1200px; width: 100%; margin-left: auto; margin-right: auto; padding-bottom: 40px; }
+        .overview-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.3s; display: flex; flex-direction: column; gap: 8px; min-height: 100px; justify-content: space-between; }
+        .overview-item:hover { background: rgba(var(--primary-rgb),0.1); border-color: var(--primary); transform: translateY(-3px); }
+        .overview-item.active { background: rgba(var(--primary-rgb),0.15); border-color: var(--primary); box-shadow: 0 0 15px rgba(var(--primary-rgb),0.2); }
+        .overview-item-num { font-size: 11px; color: var(--primary); font-weight: 700; }
+        .overview-item-title { font-size: 14px; font-weight: 600; color: #fff; }
+        .overview-item-cat { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        .close-overview-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 10px 20px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .close-overview-btn:hover { background: rgba(255,255,255,0.1); }
+
+        .mock-chat-bubble { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px 18px; font-size: 13px; position: relative; margin-top: 10px; }
+        .mock-chat-bubble.user { background: rgba(var(--secondary-rgb),0.15); border-color: rgba(var(--secondary-rgb),0.3); margin-left: 30px; }
+        .mock-chat-bubble.ai { background: rgba(var(--primary-rgb),0.1); border-color: rgba(var(--primary-rgb),0.2); margin-right: 30px; }
+        .mock-badge { font-size: 9px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -8px; left: 15px; font-weight: 600; }
+        .mock-badge.user { background: var(--secondary); color: #fff; }
+        .mock-badge.ai { background: var(--primary); color: #fff; }
+
+        .big-emoji { font-size: 60px; margin-bottom: 10px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--primary-rgb),0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(var(--primary-rgb),0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(var(--primary-rgb),0); }
+        }
+
+        @media (max-width: 1200px) {
+            :root { --slide-width: 95vw; --slide-height: 80vh; }
+            .slide { padding: 30px 40px; }
+            .slide-title { font-size: 26px; }
+            .slide-content { font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top progress bar -->
+    <div id="progress-container"><div id="progress-bar"></div></div>
+
+    <!-- Presentation Area -->
+    <div id="presentation-wrapper">
+
+        <!-- ==================== SLIDE 1: Title ==================== -->
+        <div class="slide active" data-index="0">
+            <div class="title-slide-content">
+                <div class="title-logo">
+                    <span class="material-symbols-rounded" style="font-size:75px">smart_toy</span>
+                </div>
+                <h1 class="main-title">Arianna AI</h1>
+                <p class="sub-title">Your Friendly Chatbot Helper — Ask Anything, Get Answers Fast! 🚀</p>
+                <div class="title-meta">
+                    <div class="title-meta-item">
+                        <span class="material-symbols-rounded">folder_special</span>
+                        <strong>Project Proposal</strong>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="material-symbols-rounded">bolt</span>
+                        <strong>Easy for Everyone</strong>
+                    </div>
+                    <div class="title-meta-item">
+                        <span class="material-symbols-rounded">calendar_month</span>
+                        <strong>2026</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <span>Arianna AI Presentation Deck</span>
+                <span>Slide 1 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 2: What is Arianna AI? ==================== -->
+        <div class="slide" data-index="1">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">help_center</span>
+                    <h2 class="slide-title">What is Arianna AI?</h2>
+                </div>
+                <span class="slide-category">Introduction</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div style="text-align:center;">
+                        <div style="font-size:90px; margin-bottom: 10px;">🤖</div>
+                        <h3 style="font-size:22px; color:#fff; margin-bottom:12px;">Meet Arianna!</h3>
+                        <p style="color:var(--text-muted); font-size:15px;">Arianna AI is a smart chatbot — like a super-helpful friend you can chat with on a computer anytime you need help!</p>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:16px;">
+                        <div class="feature-card">
+                            <span class="material-symbols-rounded feature-card-icon" style="color:var(--accent)">chat</span>
+                            <h3 class="feature-card-title">You Talk, She Listens</h3>
+                            <p class="feature-card-desc">Just type your question like sending a text message, and Arianna replies right away!</p>
+                        </div>
+                        <div class="feature-card">
+                            <span class="material-symbols-rounded feature-card-icon" style="color:var(--primary)">psychology</span>
+                            <h3 class="feature-card-title">Powered by a Smart Brain</h3>
+                            <p class="feature-card-desc">Arianna uses Google Gemini — one of the smartest AI brains in the world — to think and answer you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 2 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 3: The Problem ==================== -->
+        <div class="slide" data-index="2">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">warning</span>
+                    <h2 class="slide-title">The Problem We're Solving</h2>
+                </div>
+                <span class="slide-category">The Problem</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div>
+                        <div style="font-size:70px; margin-bottom:10px;">😵</div>
+                        <h3 style="font-size:20px; color:#fff; margin-bottom:12px;">Getting help can be hard!</h3>
+                        <p style="color:var(--text-muted); margin-bottom:15px;">Imagine you need help with homework or a question, but your teacher is busy, and searching Google gives you 1,000 complicated pages. That's annoying! 😤</p>
+                        <p style="color:var(--text-muted);">Sometimes you just want a simple, friendly answer — not a textbook!</p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); padding:25px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);">
+                        <h4 style="font-size:16px; color:var(--primary); margin-bottom:14px;">😩 Common Struggles</h4>
+                        <ul class="proposal-list">
+                            <li><strong>Too Complicated:</strong> Search engines show confusing results with big fancy words.</li>
+                            <li><strong>No One to Ask:</strong> Sometimes there's nobody around to help you right now.</li>
+                            <li><strong>Hard AI Tools:</strong> Other AI tools are confusing and require lots of setup.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 3 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 4: The Solution ==================== -->
+        <div class="slide" data-index="3">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">task_alt</span>
+                    <h2 class="slide-title">Arianna AI Is the Answer! 🎉</h2>
+                </div>
+                <span class="slide-category">Solution</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3">
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--accent)">chat_bubble</span>
+                        <h3 class="feature-card-title">Just Type & Ask</h3>
+                        <p class="feature-card-desc">Type any question in plain English, just like texting a friend. Arianna understands you!</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--primary)">bolt</span>
+                        <h3 class="feature-card-title">Get Fast Answers</h3>
+                        <p class="feature-card-desc">Arianna replies in seconds — no waiting, no searching, no confusing links!</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--success)">lock</span>
+                        <h3 class="feature-card-title">Your Chats Stay Private</h3>
+                        <p class="feature-card-desc">All your conversations are saved only on YOUR computer. Nobody else can read them!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 4 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 5: How It Works ==================== -->
+        <div class="slide" data-index="4">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">schema</span>
+                    <h2 class="slide-title">How Does Arianna Work?</h2>
+                </div>
+                <span class="slide-category">How It Works</span>
+            </div>
+            <div class="slide-content">
+                <p style="color:var(--text-muted); text-align:center; margin-bottom:20px;">It's as easy as 1 — 2 — 3! 😊</p>
+                <div class="arch-diagram">
+                    <div class="arch-node">
+                        <span class="material-symbols-rounded">edit_note</span>
+                        <div class="arch-node-title">Step 1: You Type</div>
+                        <div class="arch-node-desc">You type a question in the chat box, like asking your friend.</div>
+                    </div>
+                    <div class="arch-arrow">
+                        <span>arrow_forward</span>
+                        Send!
+                    </div>
+                    <div class="arch-node">
+                        <span class="material-symbols-rounded">api</span>
+                        <div class="arch-node-title">Step 2: App Sends It</div>
+                        <div class="arch-node-desc">The app secretly passes your question to a super smart computer in the cloud.</div>
+                    </div>
+                    <div class="arch-arrow">
+                        <span>arrow_forward</span>
+                        Reply!
+                    </div>
+                    <div class="arch-node">
+                        <span class="material-symbols-rounded">smart_toy</span>
+                        <div class="arch-node-title">Step 3: Arianna Answers</div>
+                        <div class="arch-node-desc">Arianna types her answer back to you, word by word, right on screen!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 5 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 6: What Can Arianna Do? ==================== -->
+        <div class="slide" data-index="5">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">auto_awesome</span>
+                    <h2 class="slide-title">What Can Arianna Help With?</h2>
+                </div>
+                <span class="slide-category">Features</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3" style="margin-top:10px;">
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--accent)">school</span>
+                        <h3 class="feature-card-title">Homework Help 📚</h3>
+                        <p class="feature-card-desc">Ask Arianna to explain math, history, science, or any subject you're stuck on!</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--primary)">edit</span>
+                        <h3 class="feature-card-title">Writing Help ✍️</h3>
+                        <p class="feature-card-desc">Need to write a story or an email? Arianna can help you put your ideas into words!</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--warning)">lightbulb</span>
+                        <h3 class="feature-card-title">Answer Questions 💡</h3>
+                        <p class="feature-card-desc">Curious about something? Ask Arianna! She can explain almost anything in simple words.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--success)">code</span>
+                        <h3 class="feature-card-title">Coding Hints 💻</h3>
+                        <p class="feature-card-desc">Learning to code? Arianna can help you fix bugs or explain how code works!</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--danger)">translate</span>
+                        <h3 class="feature-card-title">Translation 🌍</h3>
+                        <p class="feature-card-desc">Need something in another language? Arianna can translate text for you!</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--accent)">chat</span>
+                        <h3 class="feature-card-title">Just Chat! 😊</h3>
+                        <p class="feature-card-desc">Want to just talk and share ideas? Arianna is always here to listen and chat!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 6 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 7: Chat Demo ==================== -->
+        <div class="slide" data-index="6">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">forum</span>
+                    <h2 class="slide-title">See Arianna in Action!</h2>
+                </div>
+                <span class="slide-category">Demo</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div>
+                        <h3 style="font-size:18px; color:#fff; margin-bottom:12px;">A Real Conversation Example 💬</h3>
+                        <p style="color:var(--text-muted); margin-bottom:15px;">Look how easy it is! You just type your question, and Arianna replies like a real conversation.</p>
+
+                        <div class="mock-chat-bubble user">
+                            <span class="mock-badge user">You</span>
+                            What is photosynthesis? Explain it simply.
+                        </div>
+                        <div class="mock-chat-bubble ai">
+                            <span class="mock-badge ai">Arianna</span>
+                            Sure! 🌿 Photosynthesis is how plants make their own food. They use sunlight, water, and air (CO2) to create sugar for energy. It's like a plant cooking its own lunch using the sun as a stove!
+                        </div>
+                        <div class="mock-chat-bubble user" style="margin-top:16px;">
+                            <span class="mock-badge user">You</span>
+                            That's so cool! Can you give me an example?
+                        </div>
+                        <div class="mock-chat-bubble ai">
+                            <span class="mock-badge ai">Arianna</span>
+                            Of course! 🌻 A sunflower turns toward sunlight all day to soak up energy for photosynthesis — like charging a phone with solar power!
+                        </div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); padding:25px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);">
+                        <h4 style="font-size:16px; color:var(--primary); margin-bottom:14px;">✨ Why Arianna is Awesome</h4>
+                        <ul class="proposal-list" style="font-size:14px;">
+                            <li>Gives <strong>simple answers</strong> — no big confusing words.</li>
+                            <li>Replies <strong>instantly</strong> — no waiting like Google search.</li>
+                            <li>Feels like talking to a <strong>real friend</strong> who knows a lot.</li>
+                            <li>You can ask <strong>follow-up questions</strong> and she remembers the conversation!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 7 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 8: The Tech (Kid-Friendly) ==================== -->
+        <div class="slide" data-index="7">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">developer_mode</span>
+                    <h2 class="slide-title">The Tech Behind Arianna</h2>
+                </div>
+                <span class="slide-category">Tech Stuff</span>
+            </div>
+            <div class="slide-content">
+                <p style="color:var(--text-muted); margin-bottom:20px;">Don't worry — we'll explain it like building with LEGO blocks! 🧱</p>
+                <div class="grid-3">
+                    <div class="feature-card">
+                        <div style="font-size:40px; margin-bottom:8px;">🌐</div>
+                        <h3 class="feature-card-title">The Website (Frontend)</h3>
+                        <p class="feature-card-desc">The chat screen you see and click on. Built with HTML, CSS, and JavaScript — the same language that makes websites look pretty!</p>
+                    </div>
+                    <div class="feature-card">
+                        <div style="font-size:40px; margin-bottom:8px;">⚙️</div>
+                        <h3 class="feature-card-title">The Engine (Backend)</h3>
+                        <p class="feature-card-desc">A hidden helper running on your computer using Python and FastAPI. It takes your message and passes it to the smart brain.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div style="font-size:40px; margin-bottom:8px;">🧠</div>
+                        <h3 class="feature-card-title">The Brain (Gemini AI)</h3>
+                        <p class="feature-card-desc">Google's Gemini AI is the super-smart engine that thinks and creates the answer. It's like the world's biggest library + the smartest librarian!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 8 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 9: Real-Time Streaming ==================== -->
+        <div class="slide" data-index="8">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">stream</span>
+                    <h2 class="slide-title">Watch Arianna Think in Real Time! 🤔</h2>
+                </div>
+                <span class="slide-category">Cool Feature</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div>
+                        <h3 style="font-size:18px; color:#fff; margin-bottom:12px;">Like Watching Someone Type</h3>
+                        <p style="color:var(--text-muted); margin-bottom:15px;">When you ask Arianna a question, she doesn't just appear with an answer. You can actually watch the words appear on screen one by one — like magic! ✨</p>
+                        <p style="color:var(--text-muted); margin-bottom:15px;">This is called <strong style="color:var(--primary);">real-time streaming</strong> — it means you never sit and stare at a blank screen waiting!</p>
+                        <p style="color:var(--text-muted);">And if Arianna talks too much? Just click the red <strong style="color:var(--danger);">Stop button</strong> to make her stop immediately!</p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); padding:25px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);">
+                        <h4 style="font-size:14px; color:var(--primary); margin-bottom:12px;">🧠 What Arianna Thinks:</h4>
+                        <div class="mock-chat-bubble ai" style="margin-top:0;">
+                            <div style="font-size:12px; color:var(--text-muted); margin-bottom:6px; display:flex; align-items:center; gap:6px;">
+                                <span class="material-symbols-rounded" style="font-size:16px;">psychology</span>
+                                Thinking... 4 seconds
+                            </div>
+                            <p style="font-size:13px; color:var(--text-muted); font-style:italic;">Reading your question... searching knowledge... picking simple words... organizing answer...</p>
+                        </div>
+                        <div style="margin-top:16px;">
+                            <h4 style="font-size:14px; color:var(--primary); margin-bottom:10px;">⚡ Then you see:</h4>
+                            <div class="mock-chat-bubble ai">
+                                <span class="mock-badge ai">Arianna</span>
+                                Great question! Here's what you need to know...<span style="animation: blink 1s infinite; color:var(--primary);">|</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 9 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 10: Design ==================== -->
+        <div class="slide" data-index="9">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">palette</span>
+                    <h2 class="slide-title">It Looks Amazing Too! 🎨</h2>
+                </div>
+                <span class="slide-category">App Design</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div style="background:rgba(255,255,255,0.02); padding:25px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);">
+                        <h4 style="font-size:14px; color:var(--primary); margin-bottom:12px;">🌙 Cool Design Features</h4>
+                        <ul class="proposal-list" style="font-size:14px;">
+                            <li><strong>Dark Mode:</strong> Easy on the eyes, especially at night! Like watching a movie in a dark room.</li>
+                            <li><strong>Glowing Buttons:</strong> Hover your mouse and they light up with a cool glow effect!</li>
+                            <li><strong>Clean Fonts:</strong> Easy to read — like a modern app on your phone.</li>
+                            <li><strong>Smooth Animations:</strong> Everything slides and fades smoothly — it feels premium!</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 style="font-size:18px; color:#fff; margin-bottom:12px;">🎨 Arianna's Color Palette</h3>
+                        <p style="color:var(--text-muted); margin-bottom:15px;">Each color has a special meaning to make everything clear and beautiful:</p>
+                        <div class="tech-pill-grid">
+                            <div class="tech-pill"><span style="width:12px;height:12px;border-radius:50%;background:#080710;border:1px solid #fff;"></span>Dark Background</div>
+                            <div class="tech-pill"><span style="width:12px;height:12px;border-radius:50%;background:#9d4edd;"></span>Magic Purple = AI</div>
+                            <div class="tech-pill"><span style="width:12px;height:12px;border-radius:50%;background:#4361ee;"></span>Deep Blue = You</div>
+                            <div class="tech-pill"><span style="width:12px;height:12px;border-radius:50%;background:#4cc9f0;"></span>Cyan = Info</div>
+                            <div class="tech-pill"><span style="width:12px;height:12px;border-radius:50%;background:#38b000;"></span>Green = Good</div>
+                            <div class="tech-pill"><span style="width:12px;height:12px;border-radius:50%;background:#d90429;"></span>Red = Stop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 10 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 11: Who Is It For? ==================== -->
+        <div class="slide" data-index="10">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">group</span>
+                    <h2 class="slide-title">Who Is Arianna AI For?</h2>
+                </div>
+                <span class="slide-category">Users</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3" style="margin-top:10px;">
+                    <div class="feature-card" style="text-align:center;">
+                        <div style="font-size:50px; margin-bottom:10px;">📖</div>
+                        <h3 class="feature-card-title">Students</h3>
+                        <p class="feature-card-desc">Get homework help, essay writing tips, and explanations in simple language — no more hours of searching Google!</p>
+                    </div>
+                    <div class="feature-card" style="text-align:center;">
+                        <div style="font-size:50px; margin-bottom:10px;">👩‍🏫</div>
+                        <h3 class="feature-card-title">Teachers</h3>
+                        <p class="feature-card-desc">Create lesson plans, quiz questions, or get help drafting parent letters — Arianna helps teachers save time too!</p>
+                    </div>
+                    <div class="feature-card" style="text-align:center;">
+                        <div style="font-size:50px; margin-bottom:10px;">🏪</div>
+                        <h3 class="feature-card-title">Small Business Owners</h3>
+                        <p class="feature-card-desc">Need to write product descriptions or plan your business? Arianna helps small shop owners with everyday tasks!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 11 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 12: Arianna vs Others ==================== -->
+        <div class="slide" data-index="11">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">compare_arrows</span>
+                    <h2 class="slide-title">Arianna vs. Other Chatbots</h2>
+                </div>
+                <span class="slide-category">Why Arianna?</span>
+            </div>
+            <div class="slide-content">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th style="color:var(--danger)">❌ Hard AI Tools</th>
+                            <th style="color:var(--warning)">😐 Other Chatbots</th>
+                            <th style="color:var(--success)">✅ Arianna AI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color:#fff; font-weight:600;">Ease of Use</td>
+                            <td>Lots of confusing settings to figure out.</td>
+                            <td>OK but can be complicated.</td>
+                            <td style="color:var(--success)">Super simple! Just type and ask! 😊</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#fff; font-weight:600;">Privacy</td>
+                            <td>Your chats stored on their servers.</td>
+                            <td>May use your chats for training.</td>
+                            <td style="color:var(--success)">Chat stays only on YOUR computer! 🔒</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#fff; font-weight:600;">Cost</td>
+                            <td>Expensive subscriptions.</td>
+                            <td>Monthly fees required.</td>
+                            <td style="color:var(--success)">Very affordable — use your own key! 💰</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#fff; font-weight:600;">Real-time Streaming</td>
+                            <td>Shows answer only when fully done.</td>
+                            <td>Sometimes streams, sometimes not.</td>
+                            <td style="color:var(--success)">Always streams word-by-word! ⚡</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 12 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 13: Roadmap ==================== -->
+        <div class="slide" data-index="12">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">route</span>
+                    <h2 class="slide-title">What's Coming Next? 🗺️</h2>
+                </div>
+                <span class="slide-category">Roadmap</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-3" style="margin-top:15px;">
+                    <div class="feature-card" style="border-top: 4px solid var(--success);">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--success)">looks_one</span>
+                        <h3 class="feature-card-title">Phase 1: Chat (Now! ✅)</h3>
+                        <p class="feature-card-desc">The basic chatting with Arianna is already built! You can ask questions and get answers right now.</p>
+                    </div>
+                    <div class="feature-card" style="border-top: 4px solid var(--warning);">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--warning)">looks_two</span>
+                        <h3 class="feature-card-title">Phase 2: Upload Files</h3>
+                        <p class="feature-card-desc">Soon you'll be able to upload PDF files and Arianna will read them and answer questions about what's inside!</p>
+                    </div>
+                    <div class="feature-card" style="border-top: 4px solid var(--primary);">
+                        <span class="material-symbols-rounded feature-card-icon" style="color:var(--primary)">looks_3</span>
+                        <h3 class="feature-card-title">Phase 3: Voice Chat</h3>
+                        <p class="feature-card-desc">In the future, you'll be able to just SPEAK to Arianna and she'll reply — like a real voice assistant!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 13 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 14: Timeline ==================== -->
+        <div class="slide" data-index="13">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">schedule</span>
+                    <h2 class="slide-title">Our 6-Month Plan 📅</h2>
+                </div>
+                <span class="slide-category">Timeline</span>
+            </div>
+            <div class="slide-content">
+                <p style="color:var(--text-muted); text-align:center; margin-bottom:10px;">Here's a simple plan showing what we'll build and when!</p>
+                <div class="timeline-container">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-progress"></div>
+                    <div class="timeline-node completed">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Month 1</div>
+                        <div class="timeline-desc">Build the chat screen</div>
+                    </div>
+                    <div class="timeline-node completed">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Month 2</div>
+                        <div class="timeline-desc">Connect Arianna brain</div>
+                    </div>
+                    <div class="timeline-node active">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Month 3</div>
+                        <div class="timeline-desc">Test & fix bugs</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Month 4</div>
+                        <div class="timeline-desc">Add file uploads</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Month 5</div>
+                        <div class="timeline-desc">Add voice chat</div>
+                    </div>
+                    <div class="timeline-node">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-title">Month 6</div>
+                        <div class="timeline-desc">Launch to everyone! 🎉</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 14 of 15</span>
+            </div>
+        </div>
+
+        <!-- ==================== SLIDE 15: Conclusion ==================== -->
+        <div class="slide" data-index="14">
+            <div class="slide-header">
+                <div class="slide-title-wrapper">
+                    <span class="material-symbols-rounded slide-icon">celebration</span>
+                    <h2 class="slide-title">Let's Build Arianna Together! 🚀</h2>
+                </div>
+                <span class="slide-category">Conclusion</span>
+            </div>
+            <div class="slide-content">
+                <div class="grid-2">
+                    <div style="text-align:center;">
+                        <div style="font-size:80px; margin-bottom:15px;">🤖💜</div>
+                        <h3 style="font-size:22px; color:#fff; margin-bottom:15px;">Arianna AI in One Sentence:</h3>
+                        <p style="font-size:18px; color:var(--primary); font-weight:600; line-height:1.6;">"A super friendly chatbot that answers your questions simply, privately, and instantly — powered by Google Gemini!"</p>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.02); padding:25px; border-radius:12px; border:1px solid rgba(255,255,255,0.04);">
+                        <h4 style="font-size:16px; color:var(--primary); margin-bottom:16px;">🙋 Got Questions? Ask Us!</h4>
+                        <ul class="proposal-list" style="font-size:14px;">
+                            <li>How do we make Arianna even smarter?</li>
+                            <li>What subjects should she be best at?</li>
+                            <li>What new features would you love to see?</li>
+                        </ul>
+                        <div style="margin-top:20px; padding:16px; background:rgba(var(--primary-rgb),0.1); border-radius:10px; border: 1px solid rgba(var(--primary-rgb),0.2);">
+                            <p style="font-size:13px; color:var(--text-muted);">🌐 Try it: <strong style="color:#fff;">http://localhost:8000</strong></p>
+                            <p style="font-size:13px; color:var(--text-muted); margin-top:6px;">📧 Contact: <strong style="color:#fff;">support@arianna.ai</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-footer">
+                <div class="slide-footer-brand"><span class="material-symbols-rounded">smart_toy</span> Arianna AI</div>
+                <span>Slide 15 of 15</span>
+            </div>
+        </div>
+
+    </div><!-- end presentation-wrapper -->
+
+    <!-- Navigation Controls -->
+    <div id="nav-controls">
+        <button class="nav-btn" id="prev-btn" disabled>
+            <span class="material-symbols-rounded">arrow_back</span> Previous
+        </button>
+        <div class="nav-center">
+            <button class="overview-toggle-btn" id="overview-btn" title="Slide Overview">
+                <span class="material-symbols-rounded">grid_view</span>
+            </button>
+            <div class="slide-counter" id="slide-counter">1 / 15</div>
+        </div>
+        <button class="nav-btn" id="next-btn">
+            Next <span class="material-symbols-rounded">arrow_forward</span>
+        </button>
+    </div>
+
+    <!-- Slide Overview Overlay -->
+    <div id="overview-overlay">
+        <div class="overview-header" style="max-width:1200px; width:100%; margin-left:auto; margin-right:auto;">
+            <h2 style="font-size:22px; font-weight:700;">Slide Overview</h2>
+            <button class="close-overview-btn" id="close-overview-btn">
+                <span class="material-symbols-rounded">close</span> Close
+            </button>
+        </div>
+        <div class="overview-grid" id="overview-grid"></div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const slideCounter = document.getElementById('slide-counter');
+        const progressBar = document.getElementById('progress-bar');
+        const overviewBtn = document.getElementById('overview-btn');
+        const overviewOverlay = document.getElementById('overview-overlay');
+        const closeOverviewBtn = document.getElementById('close-overview-btn');
+        const overviewGrid = document.getElementById('overview-grid');
+        let current = 0;
+        const total = slides.length;
+
+        const slideMeta = [
+            { title: "Title", cat: "Introduction" },
+            { title: "What is Arianna AI?", cat: "Introduction" },
+            { title: "The Problem", cat: "The Problem" },
+            { title: "The Solution", cat: "Solution" },
+            { title: "How It Works", cat: "How It Works" },
+            { title: "What Can She Do?", cat: "Features" },
+            { title: "See Arianna in Action", cat: "Demo" },
+            { title: "The Tech Behind", cat: "Tech Stuff" },
+            { title: "Real-Time Thinking", cat: "Cool Feature" },
+            { title: "App Design", cat: "Design" },
+            { title: "Who Is It For?", cat: "Users" },
+            { title: "Arianna vs Others", cat: "Why Arianna?" },
+            { title: "What's Coming Next?", cat: "Roadmap" },
+            { title: "6-Month Timeline", cat: "Timeline" },
+            { title: "Conclusion", cat: "Wrap Up" },
+        ];
+
+        // Build overview
+        slideMeta.forEach((meta, i) => {
+            const item = document.createElement('div');
+            item.className = 'overview-item' + (i === 0 ? ' active' : '');
+            item.innerHTML = `
+                <div class="overview-item-num">Slide ${i + 1}</div>
+                <div class="overview-item-title">${meta.title}</div>
+                <div class="overview-item-cat">${meta.cat}</div>
+            `;
+            item.addEventListener('click', () => { goTo(i); closeOverview(); });
+            overviewGrid.appendChild(item);
+        });
+
+        function updateUI() {
+            slides.forEach((s, i) => {
+                s.classList.remove('active', 'prev', 'next');
+                if (i === current) s.classList.add('active');
+                else if (i < current) s.classList.add('prev');
+                else s.classList.add('next');
+            });
+            prevBtn.disabled = current === 0;
+            nextBtn.disabled = current === total - 1;
+            slideCounter.textContent = `${current + 1} / ${total}`;
+            progressBar.style.width = `${((current + 1) / total) * 100}%`;
+            document.querySelectorAll('.overview-item').forEach((item, i) => {
+                item.classList.toggle('active', i === current);
+            });
+        }
+
+        function goTo(index) { current = Math.max(0, Math.min(total - 1, index)); updateUI(); }
+        prevBtn.addEventListener('click', () => goTo(current - 1));
+        nextBtn.addEventListener('click', () => goTo(current + 1));
+
+        function openOverview() { overviewOverlay.classList.add('open'); }
+        function closeOverview() { overviewOverlay.classList.remove('open'); }
+        overviewBtn.addEventListener('click', openOverview);
+        closeOverviewBtn.addEventListener('click', closeOverview);
+        overviewOverlay.addEventListener('click', e => { if (e.target === overviewOverlay) closeOverview(); });
+
+        document.addEventListener('keydown', e => {
+            if (overviewOverlay.classList.contains('open')) { if (e.key === 'Escape') closeOverview(); return; }
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); goTo(current - 1); }
+            if (e.key === 'Escape') openOverview();
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
