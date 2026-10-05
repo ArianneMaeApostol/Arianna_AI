@@ -9,8 +9,12 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 from google import genai
-import backend.config as config
-from backend.agents import AGENT_PROMPTS
+try:
+    import backend.config as config
+    from backend.agents import AGENT_PROMPTS
+except ImportError:
+    import config as config
+    from agents import AGENT_PROMPTS
 
 app = FastAPI(title="ChatGPT-like AI Agent")
 
