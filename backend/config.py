@@ -10,4 +10,4 @@ load_dotenv(dotenv_path)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 if not GEMINI_API_KEY:
-    print("WARNING: GEMINI_API_KEY is not set. The backend will start, but requests to the AI agent will fail until you provide a key in backend/.env")
+    print("WARNING: GEMINI_API_KEY is not set. Please provide a key in backend/.env (local) or Vercel Environment Variables (production).")

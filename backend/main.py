@@ -38,14 +38,15 @@ class ChatRequest(BaseModel):
 
 @app.post("/api/chat")
 def chat_endpoint(request: ChatRequest):
-    if not config.GEMINI_API_KEY:
+    gemini_key = os.getenv("GEMINI_API_KEY") or config.GEMINI_API_KEY
+    if not gemini_key:
         raise HTTPException(
             status_code=500,
-            detail="GEMINI_API_KEY is not configured on the server. Please add it to your backend/.env file."
+            detail="GEMINI_API_KEY is not configured on the server. Please add it to your Vercel Environment Variables or backend/.env file."
         )
 
     try:
-        client = genai.Client(api_key=config.GEMINI_API_KEY)
+        client = genai.Client(api_key=gemini_key)
     except Exception as e:
         raise HTTPException(
             status_code=500,
